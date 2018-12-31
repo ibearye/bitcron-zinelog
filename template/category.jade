@@ -1,0 +1,45 @@
+extends base.jade
+
+block title
+	title= posts.category.title + ' - ' + site.title
+
+block slogan
+	.slogan
+	a= post.title
+
+
+block header
+	bgcover = posts.category.cover or '/template/img/header.png'
+	logo_light = site.configs.logo_light or '/template/img/logo.png'
+
+	header(style="background:url('{{bgcover}}')")
+		.header-bg(style="background: rgba(0,0,0,.6);")
+			.wrap
+				.logo
+					a(href='/')
+						img(src= logo_light)
+				.menu
+					+site.just_nav
+				
+				.slogan
+					h2.title= posts.category.title
+					.description: posts.category.content
+				
+block main
+	.posts
+		for post in posts:
+			bgcover = site.configs.default_thumnail or '/template/img/default-thumnail.png'
+			if ( post.cover )
+				bgcover = post.cover
+			article.article
+				.post-content
+					a(href=post.url):.cover(style='background-image:url({{bgcover}})')
+						.post-info(onclick="document.location='{{post.url}}';")
+							.post-time
+								a= post.date.format("%d %h %Y")
+							.post-title
+								h2: a(href=post.url)= post.title
+		.clear
+	.paginator
+		+h.i18n('Read More Posts', '阅读更多文章', 'zh_cn')
+		+h.paginator(pre_label='&larr;', next_label='&rarr;')

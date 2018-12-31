@@ -1,0 +1,7 @@
+.posts article .cover .post-info, .archive-year .archive-posts article .cover .post-info{
+	background: rgb(0,0,0,0) linear-gradient(180deg,transparent 0,rgba(0,0,0,.6));
+}
+
+.posts article .cover .post-info:hover, .archive-year .archive-posts article .cover .post-info:hover{
+	background: rgb(0,0,0,.6) linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.6));
+}

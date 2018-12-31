@@ -1,0 +1,33 @@
+extends base.jade
+
+block title
+	title= post.title + ' - ' + site.title
+
+
+block header
+	bgcover = site.configs.default_thumnail or '/template/img/default-thumnail.png'
+	logo_light = site.configs.logo_light or '/template/img/logo.png'
+	if ( post.cover )
+		bgcover = post.cover
+
+	header(style="background:url('{{bgcover}}')")
+		.header-bg
+			.wrap
+				.logo
+					a(href='/')
+						img(src= logo_light)
+				.menu
+					+site.just_nav
+				
+				.slogan
+					h2.title= post.title
+					.post-info
+						img(src=site.admin_avatar, class='avatar' , width=26 )
+						a= site.configs.admin_name
+						a(href=post.category.url).point= post.category.title
+						a.point= post.date("%d %H %Y")
+
+block main
+	.main-post.markdown
+		post.content
+		+post.comments_as_html()

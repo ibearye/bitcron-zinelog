@@ -1,0 +1,42 @@
+html
+    +account.need_admin()
+    head
+        +h.load('/fb_static/lib/pure.css')
+        title= '主题设置'
+        +h.mobile_metas
+        +h.load('/fb_static/service/dashboard/dash.css')
+        +h.load('/template/style.scss')
+    body
+        .theme_admin
+            {%
+                set theme_configs = [
+                    {
+                        'title': 'theme',
+                        'url': '',
+                        'icon_css': 'fa fa-paint-brush',
+                        'path': 'configs/theme.json',
+                        'fields': ['logo_light','logo_dark','header_banner','footer_banner','default_thumnail','slogan@text','tail@text',]
+                    },
+                ]
+            %}
+
+            url_path = request.path.split('/')[-1]
+            current_part = theme_configs.filter('url', url_path, return_one=True) or theme_configs[0]
+            
+            .main.pure-g-r
+                .menu.pure-u: .pure-menu.pure-menu-open
+                    a.pure-menu-heading.homepage(target='_blank', href='/') Home
+                    ul: for part in theme_configs: li
+                        admin_url = "/admin/%s"%part.url
+                        if request.args.site_id
+                            admin_url = admin_url + '?site_id=' + request.args.site_id
+                        a(href=admin_url, class="selected" if part.path==current_part.path else "")
+                            i(class=part.icon_css)
+                            span= _(part.title)
+                .container
+                    .header
+                        a#logout(href='/logout')
+                            i.fa.fa-power-off
+                            span= _('Logout')
+                    +d.config_editor(current_part.path, current_part.fields)
+            +h.load('font')

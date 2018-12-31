@@ -1,0 +1,48 @@
+extends base.jade
+
+block title
+	title= posts.tags.join('+') + ' - ' + site.title
+
+
+block header
+	header.header-pro
+		logo_dark = site.configs.logo_dark or '/template/img/logo-dark.png'
+		.wrap-pro
+			.logo
+				a(href='/')
+					img(src= logo_dark)
+			.menu
+				+site.just_nav
+
+block main
+	.pro
+		h2.title Tag
+		.tag-year
+			.tag-time
+				p TAGED IN
+				h2= posts.tags.join('+')
+				p TAGS
+				for tag_name, tag_count in site.tags
+					if tag_name == posts.tags.join('+')
+						div(style="margin:5px 2px;float:left")
+                			a(style="color:#333;")= tag_name
+                	else
+                		div(style="margin:5px 2px;float:left")
+                			a(href='/tag/{{tag_name}}',style="color:#8d8d8d")= tag_name
+				.clear
+			.tag-posts
+				for post in posts
+					bgcover = site.configs.default_thumnail or '/template/img/default-thumnail.png'
+					if ( post.cover )
+						bgcover = post.cover
+					article.article
+						.post-content
+							a(href=post.url):.cover(style='background-image:url({{bgcover}})')
+								.post-info(onclick="document.location='{{post.url}}';")
+									.post-time
+										a= post.date.format("%d %h %Y")
+									.post-title
+										h2: a(href=post.url)= post.title
+				.clear
+		.paginator-pro
+			+h.paginator(pre_label='&larr;', next_label='&rarr;')

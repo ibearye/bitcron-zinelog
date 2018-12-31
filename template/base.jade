@@ -1,0 +1,46 @@
+html
+	head
+		+h.headers
+		block title
+                title= site.title + ' - ' + site.configs.sub_title
+		+h.load('markdown')
+		+h.load('animation')
+		+load('/template/style.scss')
+		+load('/template/plus.css')
+		+load('/template/admin.scss')
+
+	body
+
+		block header
+			header_banner = site.configs.header_banner or '/template/img/header.png'
+			logo_light = site.configs.logo_light or '/template/img/logo.png'
+			logo_dark = site.configs.logo_dark or '/template/img/logo-dark.png'
+
+
+			header(style="background:url('{{header_banner}}')")
+				.header-bg
+					.wrap
+						.logo
+							a(href='/')
+								img(src= logo_light)
+						.menu
+							+site.just_nav
+						
+						.slogan
+							a= site.configs.slogan or 'The world henceforth will be run by synthesizers, people able to put together the right information at the right time, think critically about it, and make important choices wisely.'
+
+		block main
+		
+		+h.back_to_top(label='↑')
+		footer_banner = site.configs.footer_banner or '/template/img/footer-banner.png'
+		footer(style="background:url('{{footer_banner}}')")
+			.foot
+				.tail
+					a= site.configs.tail or 'Fuck the life.'
+				.signature
+					a= '—— ' + site.configs.admin_name
+				.right
+					p
+						Theme Zinelog by
+						a(href="https://nooooe.cn")='Bearye'
+
